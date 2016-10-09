@@ -1,0 +1,5 @@
+Django==1.10.2
+django-guardian==1.4.6
+djangorestframework==3.4.7
+pytest==3.0.3
+pytest-django==3.0.0
