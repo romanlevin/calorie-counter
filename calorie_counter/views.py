@@ -39,6 +39,10 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class MealPermissions(permissions.BasePermission):
+    """
+    Users can CRUD their own meals.
+    Staff can CRUD everybody's meals.
+    """
     def has_permission(self, request, view):
         return request.user and is_authenticated(request.user)
 
