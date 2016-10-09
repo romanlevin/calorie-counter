@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('calorie_counter.urls')),
+    url(r'^auth/', include('rest_framework.urls')),
     url(r'^admin/', admin.site.urls),
 ]
