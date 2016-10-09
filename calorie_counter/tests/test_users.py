@@ -38,6 +38,6 @@ def test_view_user_as_admin(client, django_user_model):
     CalorieLimit.objects.create(
         user=user,
         calorie_limit=100,
-    ).save()
+    )
     response = client.get('/api/users/%d/' % user.pk)
     assert response.json()['calorie_limit'] == 100
