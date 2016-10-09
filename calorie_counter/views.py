@@ -10,14 +10,32 @@ def index(request):
     return HttpResponse('Hello, world. This is the calorie_counter index')
 
 
+class UserPermissions(permissions.BasePermission):
+    """
+    Users can view their own user object.
+    Everything else requires superuser permissions.
+    """
+    def has_permission(self, request, view):
+        if request.method not in permissions.SAFE_METHODS:
+            return request.user and request.user.is_superuser
+        else:
+            return True
+
+    def has_object_permission(self, request, view, obj):
+        # Use should be authenticated by this point
+        return request.user.is_superuser or request.user == obj
+
+
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
+    permission_classes = (UserPermissions,)
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
+    permission_classes = (UserPermissions,)
 
 
 class MealPermissions(permissions.BasePermission):
