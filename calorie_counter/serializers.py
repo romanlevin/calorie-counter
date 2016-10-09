@@ -10,13 +10,6 @@ class MealSerializer(serializers.ModelSerializer):
         model = Meal
 
 
-# class CalorieLimitSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = CalorieLimit
-#         fields = ('calorie_limit', )
-
-
 class CreateUserSerializer(serializers.ModelSerializer):
     calorie_limit = serializers.IntegerField(
         min_value=1,
