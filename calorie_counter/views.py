@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.models import User
 from calorie_counter.models import Meal
 from calorie_counter.serializers import MealSerializer, CreateUserSerializer
@@ -7,7 +7,7 @@ from rest_framework.compat import is_authenticated
 
 
 def index(request):
-    return HttpResponse('Hello, world. This is the calorie_counter index')
+    return render(request, 'calorie_counter/index.html', {})
 
 
 class UserPermissions(permissions.BasePermission):
