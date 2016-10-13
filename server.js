@@ -4,8 +4,12 @@ var config = require('./webpack.local.config')
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
+  stats: {
+    colors: true
+  },
   hot: true,
   inline: true,
+  clientLogLevel: 'info',
   historyApiFallback: true
 }).listen(3000, '0.0.0.0', function (err, result) {
   if (err) {
