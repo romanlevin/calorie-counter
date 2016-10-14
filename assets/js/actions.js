@@ -14,7 +14,9 @@ export const receiveUsers = users => ({
 const fetchUsers = () => dispatch => {
     dispatch(requestUsers)
 
-    return fetch('/api/users/')
+    return fetch('/api/users/', {
+	credentials: 'same-origin'
+        })
 	.then(response => response.json())
 	.then(json => dispatch(receiveUsers(json)))
 }

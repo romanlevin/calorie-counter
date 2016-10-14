@@ -4,7 +4,7 @@ import { REQUEST_USERS, RECEIVE_USERS } from './actions'
 const users = (state = {
     isFetching: false,
     didInvalidate: false,
-    items: [],
+    users: [],
 }, action) => {
     switch (action.type) {
 	case REQUEST_USERS:
@@ -18,7 +18,7 @@ const users = (state = {
 		...state,
 		isFetching: false,
 		didInvalidate: false,
-		items: action.users,
+		users: action.users,
 		lastUpdated: action.receivedAt
 	    }
 	default:

@@ -7,7 +7,7 @@ import { Users } from './users'
 
 class App extends Component {
     static propTypes = {
-	items: PropTypes.array.isRequired,
+	users: PropTypes.array.isRequired,
 	isFetching: PropTypes.bool.isRequired,
 	// isInvalidated: PropTypes.bool.isRequired,
 	// lastUpdated: PropTypes.number,
@@ -20,15 +20,15 @@ class App extends Component {
     }
 
     render() {
-	const { items, isFetching } = this.props
-	const isEmpty = items.length === 0
-	return <Users users={items} />
+	const { users, isFetching } = this.props
+	const isEmpty = users.length === 0
+	return <Users users={users} />
     }
 }
 
 const mapStateToProps = state => {
     const { users } = state
-    return users || { isFetching: true, items: []}
+    return users || { isFetching: true, users: []}
 }
 
 export default connect(mapStateToProps)(App);

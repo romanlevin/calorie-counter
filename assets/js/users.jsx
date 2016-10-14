@@ -8,13 +8,16 @@ const User = ({ username, id }) => (
 );
 
 export const Users = ({ users }) => (
-    <ul>
-	{users.map(user =>
-	    <User
-		key={user.id}
-		{...user}
-	    />
-	)}
-    </ul>
+    <div>
+	<h1>Users:</h1>
+	<ul>
+	    {users.map(user =>
+		<User
+		    key={user.id}
+		    {...user}
+		/>
+	    )}
+	</ul>
+    </div>
 );
 
