@@ -5,14 +5,14 @@ from calorie_counter.models import CalorieLimit
 @pytest.mark.django_db
 def test_list_users(client):
     response = client.get('/api/users/')
-    assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert response.status_code == 403
 
 
 @pytest.mark.django_db
 def test_list_users_as_admin(admin_client):
     response = admin_client.get('/api/users/')
     assert response.status_code == 200
+    # Admin user and anon user
     assert len(response.json()) == 2
 
 

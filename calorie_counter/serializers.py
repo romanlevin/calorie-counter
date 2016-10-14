@@ -31,12 +31,11 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
         user.save()
 
-        print(validated_data)
-        calorie_limit = CalorieLimit(
-            user=user,
-            calorie_limit=validated_data['calorie_limit']['calorie_limit'],
-        )
-
-        calorie_limit.save()
+        if 'calorie_limit' in validated_data and 'calorie_limit' in validated_data['calorie_limit']:
+            calorie_limit = CalorieLimit(
+                user=user,
+                calorie_limit=validated_data['calorie_limit']['calorie_limit'],
+            )
+            calorie_limit.save()
 
         return user
