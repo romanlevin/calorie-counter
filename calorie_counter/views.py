@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from calorie_counter.models import Meal
 from calorie_counter.serializers import MealSerializer, CreateUserSerializer
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, exceptions
 
 
 def index(request):
@@ -79,3 +79,21 @@ class MealDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
     permission_classes = (MealPermissions,)
+
+
+class UserMealList(generics.ListAPIView):
+    serializer_class = MealSerializer
+    permission_classes = (MealPermissions,)
+    lookup_field = 'user'
+
+    def get_queryset(self):
+        lookup_user_id = self.kwargs['user']
+        if not User.objects.filter(pk=lookup_user_id):
+            # Lookup user does not exist
+            raise exceptions.NotFound()
+        user = self.request.user
+        if user.is_staff or user.id == lookup_user_id:
+            return Meal.objects.all(user=lookup_user_id)
+        else:
+            # Not authorised to view this user's meals
+            raise exceptions.NotFound()
