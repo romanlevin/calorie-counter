@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { postUser } from './actions';
+import { postUser, deleteUser } from './actions';
 
-const User = ({ username, id }) => (
+const UserElement = ({ username, id, dispatch }) => (
     <li>
 	{username}
+	<span onClick={e => dispatch(deleteUser(id))}>✗</span>
     </li>
-);
+)
+const User = connect()(UserElement)
 
 const NewUserForm = ({dispatch}) => {
     let username, password, calorie_limit;
