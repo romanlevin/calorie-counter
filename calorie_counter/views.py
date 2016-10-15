@@ -63,6 +63,7 @@ class MealPermissions(permissions.BasePermission):
 class MealList(generics.ListCreateAPIView):
     serializer_class = MealSerializer
     permission_classes = (MealPermissions,)
+    filter_fields = ('calories',)
 
     def get_queryset(self):
         user = self.request.user
