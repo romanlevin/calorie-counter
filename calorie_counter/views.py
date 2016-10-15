@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import requires_csrf_token
 from calorie_counter.models import Meal
 from calorie_counter.serializers import MealSerializer, CreateUserSerializer
 from rest_framework import generics, permissions, exceptions
 
 
+@requires_csrf_token
 def index(request):
     return render(request, 'calorie_counter/index.html', {})
 

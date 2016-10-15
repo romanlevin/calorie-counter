@@ -4,11 +4,10 @@ import { fetchUsersIfNeeded } from './actions'
 import { Users } from './users'
 
 
-
 class App extends Component {
     static propTypes = {
 	users: PropTypes.array.isRequired,
-	isFetching: PropTypes.bool.isRequired,
+	// isFetching: PropTypes.bool.isRequired,
 	// isInvalidated: PropTypes.bool.isRequired,
 	// lastUpdated: PropTypes.number,
 	dispatch: PropTypes.func.isRequired

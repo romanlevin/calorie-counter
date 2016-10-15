@@ -1,25 +1,25 @@
 import { combineReducers } from 'redux'
-import { REQUEST_USERS, RECEIVE_USERS } from './actions'
+import { REQUEST_USERS, RECEIVE_USERS, CREATE_USER, CREATED_USER } from './actions'
 
 const users = (state = {
-    isFetching: false,
-    didInvalidate: false,
     users: [],
 }, action) => {
     switch (action.type) {
 	case REQUEST_USERS:
 	    return {
 		...state,
-		isFetching: true,
-		didInvalidate: false,
 	    }
 	case RECEIVE_USERS:
 	    return {
 		...state,
-		isFetching: false,
-		didInvalidate: false,
 		users: action.users,
-		lastUpdated: action.receivedAt
+	    }
+	case CREATE_USER:
+	    return state
+	case CREATED_USER:
+	    return {
+		...state,
+		users: [...state.users, action.user]
 	    }
 	default:
 	    return state
