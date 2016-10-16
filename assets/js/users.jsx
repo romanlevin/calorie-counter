@@ -2,10 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { postUser, deleteUser } from './actions';
 
-const UserElement = ({ username, id, dispatch }) => (
+const UserElement = ({ username, id, dispatch, calorie_limit}) => (
     <li>
 	{username}
 	<span onClick={e => dispatch(deleteUser(id))}>✗</span>
+	{ calorie_limit &&
+	     <span> - Calorie limit: {calorie_limit}</span>
+	}
     </li>
 )
 const User = connect()(UserElement)
