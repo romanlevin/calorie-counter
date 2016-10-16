@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie'
+import fetch from './fetch'
 export const REQUEST_USERS = 'REQUEST_USERS'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const CREATE_USER = 'CREATE_USER'
@@ -36,21 +36,11 @@ const deletedUser = user_id => ({
     user_id
 })
 
-const getCsrfToken = () => Cookies.get('csrftoken')
-const headers = () => ({
-    'X-CSRFToken': getCsrfToken(),
-    'Content-Type': 'application/json',
-})
-const fetchOptions = () => ({
-    headers: headers(),
-    credentials: 'same-origin',
-})
 
 export const deleteUser = user_id => dispatch => {
     dispatch(deleteUserAction(user_id))
     return fetch(`/api/users/${user_id}`, {
 	method: 'DELETE',
-	...fetchOptions(),
     })
 	.then(response => dispatch(deletedUser(user_id)))
 }
@@ -61,7 +51,6 @@ export const postUser = user => dispatch => {
     return fetch('/api/users/', {
 	method: 'POST',
 	body: JSON.stringify(user),
-	...fetchOptions(),
 	})
 	.then(response => response.json())
 	.then(json => dispatch(createdUser(json)))
