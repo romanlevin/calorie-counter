@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersIfNeeded } from './actions'
+import { fetchUsersIfNeeded } from './userActions'
 import { Users } from './users'
 
 

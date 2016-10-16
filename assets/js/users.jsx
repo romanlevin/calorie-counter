@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { postUser, deleteUser } from './actions';
+import { postUser, deleteUser } from './userActions';
 
 const UserElement = ({ username, id, dispatch, calorie_limit}) => (
     <li>

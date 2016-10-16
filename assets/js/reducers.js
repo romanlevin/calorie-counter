@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import {
     REQUEST_USERS, RECEIVE_USERS, CREATE_USER, CREATED_USER,
     DELETE_USER, DELETED_USER
-} from './actions'
+} from './userActions'
 
 const users = (state = {
     users: [],
