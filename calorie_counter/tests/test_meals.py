@@ -68,3 +68,42 @@ def test_meal_create(api_client, user, models):
 
     meal_object = models.Meal.objects.first()
     assert meal_object.text == meal['text']
+
+
+def test_meal_filters(api_client, user, models):
+    meal = {
+        'text': 'An okay meal',
+        'time': '12:32',
+        'date': '2013-12-25',
+        'calories': 123}
+    api_client.force_login(user)
+
+    response = api_client.post('/api/meals/', meal)
+    assert response.status_code == 201
+
+    meal['time'] = '13:00'
+    meal['date'] = '2013-12-26'
+    response = api_client.post('/api/meals/', meal)
+    assert response.status_code == 201
+
+    meal['time'] = '13:10'
+    meal['date'] = '2013-12-27'
+    response = api_client.post('/api/meals/', meal)
+    assert response.status_code == 201
+
+    meal['time'] = '14:10'
+    meal['date'] = '2013-12-28'
+    response = api_client.post('/api/meals/', meal)
+    assert response.status_code == 201
+
+    response = api_client.get('/api/meals/')
+    assert len(response.json()) == 4
+
+    response = api_client.get('/api/meals/', {'min_time': '13:00', 'max_time': '13:50'})
+    assert len(response.json()) == 2
+
+    response = api_client.get('/api/meals/', {'min_date': '2013-12-27'})
+    assert len(response.json()) == 2
+
+    response = api_client.get('/api/meals/', {'max_date': '2014-12-27'})
+    assert len(response.json()) == 4

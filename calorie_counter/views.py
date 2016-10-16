@@ -62,17 +62,61 @@ class MealPermissions(permissions.BasePermission):
         return request.user.is_staff or request.user == obj.user
 
 
+def str_to_date(date_str):
+    import datetime
+    if not date_str:
+        return None
+    return datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+
+
+def str_to_time(time_str):
+    import datetime
+    if not time_str:
+        return None
+    return datetime.datetime.strptime(time_str, '%H:%M').time()
+
+
 class MealList(generics.ListCreateAPIView):
     serializer_class = MealSerializer
     permission_classes = (MealPermissions,)
     filter_fields = ('calories',)
 
+    def get_date_range(self):
+        max_date_str = self.request.GET.get('max_date')
+        min_date_str = self.request.GET.get('min_date')
+        max_date = str_to_date(max_date_str)
+        min_date = str_to_date(min_date_str)
+        return (min_date, max_date)
+
+    def get_time_range(self):
+        max_time_str = self.request.GET.get('max_time')
+        min_time_str = self.request.GET.get('min_time')
+        max_time = str_to_time(max_time_str)
+        min_time = str_to_time(min_time_str)
+        return (min_time, max_time)
+
+    def apply_filters(self, q):
+        min_date, max_date = self.get_date_range()
+        if max_date:
+            q = q.filter(date__lte=max_date)
+        if min_date:
+            q = q.filter(date__gte=min_date)
+
+        min_time, max_time = self.get_time_range()
+        if max_time:
+            q = q.filter(time__lte=max_time)
+        if min_time:
+            q = q.filter(time__gte=min_time)
+
+        return q
+
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
-            return Meal.objects.all()
+            q = Meal.objects.all()
         else:
-            return Meal.objects.filter(user=user.id)
+            q = Meal.objects.filter(user=user.id)
+        return self.apply_filters(q)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
