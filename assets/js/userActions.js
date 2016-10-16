@@ -13,7 +13,6 @@ export const requestUsers = () => ({
 export const receiveUsers = users => ({
     type: RECEIVE_USERS,
     users,
-    receivedAt: Date.now()
 })
 
 const createUser = (user) => ({

@@ -32,7 +32,7 @@ const NewUserForm = ({dispatch}) => {
 	<input placeholder="username" name="username" id="username" ref={node => username = node}/><br />
 	<input placeholder="password" type="password" name="password" id="password" ref={node => password = node}/><br />
 	<input placeholder="calorie limit" name="calorie_limit" id="calorie_limit" ref={node => calorie_limit = node}/><br />
-	<input type="submit" value="createUser"/>
+	<input type="submit" value="Create User"/>
     </form>
 };
 
