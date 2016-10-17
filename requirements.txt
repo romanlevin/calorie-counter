@@ -1,5 +1,10 @@
 Django==1.10.2
+django-filter==0.15.2
 django-guardian==1.4.6
+django-webpack-loader==0.3.3
 djangorestframework==3.4.7
+py==1.4.31
 pytest==3.0.3
 pytest-django==3.0.0
+python-dateutil==2.5.3
+six==1.10.0
