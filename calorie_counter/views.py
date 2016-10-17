@@ -59,7 +59,8 @@ class MealPermissions(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         # Use should be authenticated by this point
-        return request.user.is_staff or request.user == obj.user
+        user = request.user
+        return user.is_staff or user.is_superuser or user == obj.user
 
 
 def str_to_date(date_str):
