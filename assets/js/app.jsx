@@ -23,6 +23,7 @@ class App extends Component {
 	const { users, meals } = this.props
 	return (
 	    <div>
+		<a href="/auth/login">Login</a>
 		<Users users={users} />
 		<Meals meals={meals} />
 	    </div>
