@@ -77,11 +77,7 @@ def str_to_time(time_str):
     return datetime.datetime.strptime(time_str, '%H:%M').time()
 
 
-class MealList(generics.ListCreateAPIView):
-    serializer_class = MealSerializer
-    permission_classes = (MealPermissions,)
-    filter_fields = ('calories',)
-
+class MealFilterMixin:
     def get_date_range(self):
         max_date_str = self.request.GET.get('max_date')
         min_date_str = self.request.GET.get('min_date')
@@ -111,6 +107,12 @@ class MealList(generics.ListCreateAPIView):
 
         return q
 
+
+class MealList(generics.ListCreateAPIView, MealFilterMixin):
+    serializer_class = MealSerializer
+    permission_classes = (MealPermissions,)
+    filter_fields = ('calories',)
+
     def get_queryset(self):
         user = self.request.user
         if user.is_staff or user.is_superuser:
@@ -129,7 +131,7 @@ class MealDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (MealPermissions,)
 
 
-class UserMealList(generics.ListAPIView):
+class UserMealList(generics.ListAPIView, MealFilterMixin):
     serializer_class = MealSerializer
     permission_classes = (MealPermissions,)
     lookup_field = 'user'
@@ -141,7 +143,8 @@ class UserMealList(generics.ListAPIView):
             raise exceptions.NotFound()
         user = self.request.user
         if user.is_staff or user.id == lookup_user_id:
-            return Meal.objects.all(user=lookup_user_id)
+            q = Meal.objects.all(user=lookup_user_id)
+            return self.apply_filters(q)
         else:
             # Not authorised to view this user's meals
             raise exceptions.NotFound()
