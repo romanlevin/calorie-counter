@@ -1,3 +1,4 @@
+import datetime
 import pytest
 
 
@@ -107,3 +108,32 @@ def test_meal_filters(api_client, user, models):
 
     response = api_client.get('/api/meals/', {'max_date': '2014-12-27'})
     assert len(response.json()) == 4
+
+
+def test_staff_can_list_all_meals(api_client, user, models):
+    time = datetime.time(12, 13)
+    date = datetime.date(2013, 10, 25)
+    meal = models.Meal.objects.create(
+        text='A nice salad',
+        calories=123,
+        time=time,
+        date=date,
+        user=user
+        )
+    other_user = models.User.objects.create_user(
+        username='staff', password='who cares?', is_staff=False, is_superuser=False)
+
+    response = api_client.get('/api/meals/')
+    assert response.status_code == 403
+
+    api_client.force_login(other_user)
+    response = api_client.get('/api/meals/')
+    meals = response.json()
+    assert len(meals) == 0
+
+    other_user.is_staff = True
+    other_user.save()
+    response = api_client.get('/api/meals/')
+    meals = response.json()
+    assert len(meals) == 1
+    assert meals[0]['id'] == meal.id

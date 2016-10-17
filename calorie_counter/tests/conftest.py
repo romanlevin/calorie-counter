@@ -17,7 +17,8 @@ def api_client():
 @pytest.fixture
 @pytest.mark.django_db
 def user(django_user_model):
-    return django_user_model.objects.create_user('some_user', 'crazypassword')
+    return django_user_model.objects.create_user(
+            username='some_user', is_staff=False, is_superuser=False)
 
 
 @pytest.fixture

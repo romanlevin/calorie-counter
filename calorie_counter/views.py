@@ -112,7 +112,7 @@ class MealList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
+        if user.is_staff or user.is_superuser:
             q = Meal.objects.all()
         else:
             q = Meal.objects.filter(user=user.id)
