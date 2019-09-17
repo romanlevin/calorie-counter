@@ -1,4 +1,4 @@
-Django==1.10.2
+Django==1.11.23
 django-filter==0.15.2
 django-guardian==1.4.6
 django-webpack-loader==0.3.3
